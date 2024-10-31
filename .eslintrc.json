@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "unused-imports",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "mui-path-imports"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:cypress/recommended",
+    "plugin:storybook/recommended",
+    "prettier" // Add "prettier" last. This will turn off eslint rules conflicting with prettier. This is not what will format our code.
+  ],
+  "rules": {
+    // Note: you must disable the base rule as it can report incorrect errors
+    // Source: https://typescript-eslint.io/rules/no-unused-vars/
+    "no-unused-vars": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-magic-numbers": ["error", { "ignore": [-1, 0, 1] }],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "curly": ["error", "all"],
+    "mui-path-imports/mui-path-imports": "error"
+  },
+  "ignorePatterns": [
+    "webpack.config.js"
+  ]
+}

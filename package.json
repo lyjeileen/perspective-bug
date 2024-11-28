@@ -58,7 +58,9 @@
     "webpack-dev-server": "4.15.1"
   },
   "scripts": {
-    "local": "webpack serve --mode=development --port=3000"
+    "local": "webpack serve --mode=development --port=3000",
+    "build": "webpack --mode=production",
+    "start:prod": "http-server dist"
   },
   "browserslist": {
     "production": [

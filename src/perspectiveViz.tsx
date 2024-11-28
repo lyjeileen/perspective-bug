@@ -31,25 +31,34 @@ function PerspectiveViz(props: TableFormat) {
   const perspectiveTheme = currentTheme === 'dark' ? 'Pro Dark' : 'Pro Light'
 
   useEffect(() => {
-    const viewer = viewerRef.current
-    if (viewer) {
-      perspective
-        .worker()
-        .then((worker: Client) => {
-          worker.table(props.data).then((table: Table) => {
-            viewer.load(table).then(() => {
-              viewer.restore({
+    perspective
+      .worker()
+      .then((worker: Client) => {
+        return worker.table(props.data)
+      })
+      .then((table: Table) => {
+        const viewer = viewerRef.current
+        if (viewer) {
+          viewer.load(table).then(() => {
+            viewer
+              .restore({
+                group_by: ['region', 'state'],
+                split_by: ['category', 'subCategory'],
+                aggregates: { sales: 'any', profit: 'any' },
+                columns: ['sales', 'profit'],
                 theme: perspectiveTheme,
                 settings: false,
               })
-            })
+              .then(() => {
+                viewer.getView().then((view) => view.set_depth(0))
+              })
           })
-        })
-        .catch(() => {
-          setHasError(true)
-        })
-    }
-  }, [props.data, perspectiveTheme])
+        }
+      })
+      .catch(() => {
+        setHasError(true)
+      })
+  }, [])
 
   if (hasError) {
     return (
@@ -60,7 +69,7 @@ function PerspectiveViz(props: TableFormat) {
       <Stack direction="column" width="800px" height="800px">
         <perspective-viewer
           ref={viewerRef}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '100%', overflow: 'auto' }}
         ></perspective-viewer>
       </Stack>
     )
